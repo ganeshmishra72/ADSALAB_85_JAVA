@@ -1,0 +1,107 @@
+                                    // Implement a problem of move all zeroes to end of
+                                    // array.
+                                    // Statement: Given an array of random numbers, Push all the zero’s
+                                    // of a given array to the end of the array. For example, if the given
+                                    // arrays is {1, 9, 8, 4, 0, 0, 2, 7, 0, 6, 0}, it should be changed to {1, 9,
+                                    // 8, 4, 2, 7, 6, 0, 0, 0, 0}. The order of all other elements should be
+                                    // same.
+                                    // Input : arr[] = {1, 2, 0, 4, 3, 0, 5, 0};
+                                    // Output : arr[] = {1, 2, 4, 3, 5, 0, 0, 0};
+
+import java.util.Scanner;
+
+public class Asg2 {
+
+    static final int MAX = 100;
+
+    // Merge two arrays while moving zeros to the end
+    public static int[] merge(int[] left, int lsize, int[] right, int rsize, int[] resSize) {
+        int[] result = new int[MAX];
+        int idx = 0;
+        int zeroCount = 0;
+
+        // Add non-zero elements from left
+        for (int i = 0; i < lsize; i++) {
+            if (left[i] != 0) {
+                result[idx++] = left[i];
+            } else {
+                zeroCount++;
+            }
+        }
+
+        // Add non-zero elements from right
+        for (int i = 0; i < rsize; i++) {
+            if (right[i] != 0) {
+                result[idx++] = right[i];
+            } else {
+                zeroCount++;
+            }
+        }
+
+        // Append zeros at the end
+        for (int i = 0; i < zeroCount; i++) {
+            result[idx++] = 0;
+        }
+
+        resSize[0] = idx;
+        return result;
+    }
+
+    // Recursively move zeros to the end
+    public static int[] moveZero(int[] arr, int start, int end, int[] resSize) {
+        if (start == end) {
+            int[] single = new int[MAX];
+            single[0] = arr[start];
+            resSize[0] = 1;
+            return single;
+        }
+
+        int mid = (start + end) / 2;
+        int[] leftSize = new int[1];
+        int[] rightSize = new int[1];
+
+        int[] left = moveZero(arr, start, mid, leftSize);
+        int[] right = moveZero(arr, mid + 1, end, rightSize);
+
+        return merge(left, leftSize[0], right, rightSize[0], resSize);
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the size of the array: ");
+        int size = scanner.nextInt();
+
+        int[] arr = new int[size];
+
+        // Accept The Array Element from user
+        System.out.println("Enter array elements:");
+        for (int i = 0; i < size; i++) {
+            arr[i] = scanner.nextInt();
+        }
+
+        // Accept The Array Element from user
+        System.out.print("Original Array: { ");
+        for (int num : arr) {
+            System.out.print(num + " ");
+        }
+        System.out.println("}");
+
+        int[] resSize = new int[1];
+        int[] result = moveZero(arr, 0, size - 1, resSize);
+
+        System.out.print("Array after moving zeros to the end: { ");
+        for (int i = 0; i < resSize[0]; i++) {
+            System.out.print(result[i] + " ");
+        }
+        System.out.println("}");
+    }
+}
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+output:
+Enter the size of the array: 5
+Enter array elements:
+1 0 1 0 0
+Original Array: { 1 0 1 0 0 }
+Array after moving zeros to the end: { 1 1 0 0 0 }
