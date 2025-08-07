@@ -1,0 +1,55 @@
+   Implement a problem of smallest number with at least no trailing 
+zeroes in factorial. 
+Statement: Given a number n. The task is to find the smallest number 
+whose factorial contains at least n trailing zeroes.
+
+#include <iostream>
+using namespace std;
+
+// Function to count trailing zeroes in x!
+int countTrailingZeroes(int x) {
+    int count = 0;
+    while (x >= 5) {
+        count += x / 5;
+        x /= 5;
+    }
+    return count;
+}
+
+// Function using binary search to find smallest x such that x! has at least n trailing zeroes
+int findSmallestX(int n) {
+    int low = 0;
+    int high = 5 * n; // upper bound based on max zeroes
+
+    int result = -1;
+
+    while (low <= high) {
+        int mid = (low + high) / 2;
+        int zeros = countTrailingZeroes(mid);
+
+        if (zeros >= n) {
+            result = mid;
+            high = mid - 1; // try smaller number
+        } else {
+            low = mid + 1;
+        }
+    }
+
+    return result;
+}
+
+int main() {
+    int n;
+    cout << "Enter number of trailing zeroes: ";
+    cin >> n;
+
+    int ans = findSmallestX(n);
+    cout << "Smallest number whose factorial has at least " << n << " trailing zeroes is: " << ans << endl;
+
+    return 0;
+}
+
+
+
+Enter number of trailing zeroes: 6
+Smallest number whose factorial has at least 6 trailing zeroes is: 25
