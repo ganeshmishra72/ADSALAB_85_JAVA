@@ -1,0 +1,73 @@
+Majority Element 
+
+import java.util.Scanner;
+
+public class MajorityElement {
+
+    // Function to count how many times num appears between left and right
+    static int countInRange(int[] arr, int left, int right, int num) {
+        int count = 0;
+        for (int i = left; i <= right; i++) {
+            if (arr[i] == num) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    // Recursive function to find majority element
+    static int majorityElementRec(int[] arr, int left, int right) {
+        // Base case: only one element
+        if (left == right) {
+            return arr[left];
+        }
+
+        // Divide
+        int mid = (left + right) / 2;
+        int leftMajor = majorityElementRec(arr, left, mid);
+        int rightMajor = majorityElementRec(arr, mid + 1, right);
+
+        // If both sides agree
+        if (leftMajor == rightMajor) {
+            return leftMajor;
+        }
+
+        // Else, count each and return the one with higher frequency
+        int leftCount = countInRange(arr, left, right, leftMajor);
+        int rightCount = countInRange(arr, left, right, rightMajor);
+
+        return (leftCount > rightCount) ? leftMajor : rightMajor;
+    }
+
+    // Wrapper function
+    static int findMajorityElement(int[] arr, int size) {
+        return majorityElementRec(arr, 0, size - 1);
+    }
+
+    // Main function
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Input
+        System.out.print("Enter size of array: ");
+        int n = scanner.nextInt();
+        int[] arr = new int[n];
+
+        System.out.print("Enter " + n + " elements: ");
+        for (int i = 0; i < n; i++) {
+            arr[i] = scanner.nextInt();
+        }
+
+        // Find majority element
+        int majority = findMajorityElement(arr, n);
+
+        // Output
+        System.out.println("Majority Element: " + majority);
+
+        scanner.close();
+    }
+}
+
+Enter size of array: 7
+Enter 7 elements: 2 2 1 1 1 2 2
+Majority Element: 2
