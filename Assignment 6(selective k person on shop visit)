@@ -1,0 +1,78 @@
+import java.util.Scanner;
+
+class MakeOne {
+    int start;
+    int end;
+}
+
+public class Asg5 {
+
+    static void shopSort(MakeOne[] one, int n) {
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - 1 - i; j++) {
+                if (one[j].end > one[j + 1].end) {
+                    MakeOne temp = one[j];
+                    one[j] = one[j + 1];
+                    one[j + 1] = temp;
+                }
+            }
+        }
+    }
+
+    static int shopVisit(int size, MakeOne[] a, int person) {
+        shopSort(a, size);
+
+        int[] personVisit = new int[100];
+
+        int count = 0;
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < person; j++) {
+                if (personVisit[j] <= a[i].start) {
+                    personVisit[j] = a[i].end;
+                    count++;
+                    break;
+                }
+            }
+        }
+        return count;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter the number of shops: ");
+        int shops = sc.nextInt();
+
+        MakeOne[] n = new MakeOne[shops];
+        for (int i = 0; i < shops; i++) {
+            n[i] = new MakeOne();
+        }
+
+        System.out.println("Enter the starting time:");
+        for (int i = 0; i < shops; i++) {
+            n[i].start = sc.nextInt();
+        }
+
+        System.out.println("Enter the ending time:");
+        for (int i = 0; i < shops; i++) {
+            n[i].end = sc.nextInt();
+        }
+
+        int ans = shopVisit(shops, n, 2); // Assuming 2 persons
+        System.out.println("Maximum shops visited: " + ans);
+
+        sc.close();
+    }
+}
+
+-------------------------------------------Output----------------------------------------------------
+PS C:\ADSAL_JAVA> javac Asg5.java
+PS C:\ADSAL_JAVA> java Asg5.java 
+Enter the number of shops: 3
+Enter the starting time:
+1 2 3
+Enter the ending time:
+3 4 5
+Maximum shops visited: 3
+PS C:\ADSAL_JAVA> 
+
