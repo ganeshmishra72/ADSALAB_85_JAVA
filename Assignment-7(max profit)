@@ -1,0 +1,62 @@
+/* Implement a problem of maximize Profit by trading
+stocks based on given rate per day.
+Statement: Given an array arr[] of N positive integers
+which denotes the cost of selling and buying a stock on
+each of the N days. The task is to find the maximum
+profit that can be earned by buying a stock on or selling
+all previously bought stocks on a particular day.
+Input: arr[] = {2, 3, 5} Output: 5
+Input: arr[] = {8, 5, 1} Output: 0 */
+
+import java.util.Scanner; // it is import java scanner class for input 
+
+public class Asg6 {
+
+    public static int maxProfite(int a[]) { // function for caluclate profite
+        int max = 0, profit = 0;
+        for (int i = a.length - 1; i > 0; i--) {
+            if (max < a[i]) {
+                max = a[i];
+            }
+
+            if (max > a[i - 1]) {
+                profit += max - a[i - 1];
+                System.out.println(max + "-" + a[i - 1] + "=" + (max - a[i - 1]));
+            } else {
+                max = a[i - 1];
+            }
+        }
+        return profit;
+    }
+
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Enter the Size of array:");
+        int size = scan.nextInt();
+        int a[] = new int[size];
+        System.out.println("Enter the data:");
+        for (int i = 0; i < size; i++) {
+            a[i] = scan.nextInt();
+        }
+        int ans = maxProfite(a);
+        System.out.println("Max Profite of given stack data is:" + ans);
+    }
+
+
+
+-------------------------------------------------------------------------------------------------------------------------------------
+
+PS C:\ADSAL_JAVA> javac Asg6.java
+PS C:\ADSAL_JAVA> java Asg6.java
+Enter the Size of array:
+5
+Enter the data:
+5
+7
+9
+2
+1
+9-7=2
+9-5=4
+Max Profite of given stack data is:6
+}
